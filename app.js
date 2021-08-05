@@ -36,10 +36,15 @@ UI.prototype.showAlert = function(message, className) {
     // Insert alert
     container.insertBefore(div, form);
     // Timeout after 3 seconds
-    setTimeout(function () {
+    setTimeout(function() {
         document.querySelector('.alert').remove();}, 3000);
     }
-
+// Delete Book
+UI.prototype.deleteBook = function(target) {
+    if (target.className === 'delete') {
+        target.parentElement.parentElement.remove();
+    }
+}
 // Clear Fields
 UI.prototype.clearFields = function () {
     document.querySelector('#title').value = '';
@@ -47,7 +52,7 @@ UI.prototype.clearFields = function () {
     document.querySelector('#isbn').value = '';
 }
 
-// Event Listeners
+// Event Listeners add book
 document.querySelector('#book-form').addEventListener('submit', function(e) {
     // Form values
     const title = document.querySelector('#title').value,
@@ -69,5 +74,16 @@ document.querySelector('#book-form').addEventListener('submit', function(e) {
         ui.clearFields();
     }
     
+    e.preventDefault();
+})
+// Event listener delete
+document.querySelector('#book-list').addEventListener('click', function(e) {
+    // Instantiate UI
+    const ui = new UI();
+    // Delete book
+    ui.deleteBook(e.target);
+    // Show delete alert
+    ui.showAlert('Book Removed!', 'success');
+
     e.preventDefault();
 })
